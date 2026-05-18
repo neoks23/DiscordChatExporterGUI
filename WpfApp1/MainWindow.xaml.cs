@@ -21,7 +21,8 @@ namespace WpfApp1
         string token;
         string serverid;
         string channel;
-        string formattedDate;
+        string formattedAfterDate;
+        string formattedBeforeDate;
 
         public MainWindow()
         {
@@ -33,7 +34,8 @@ namespace WpfApp1
 
             cbbFormat.ItemsSource = new string[] { "PlainText", "HtmlDark", "HtmlLight", "Csv", "Json" };
             txtConsole.Text += "\n";
-            formattedDate = dtpTime.SelectedDate.Value.ToString("MM/dd/yyyy");
+            formattedAfterDate = dtpAfterTime.SelectedDate.Value.ToString("MM/dd/yyyy");
+            formattedBeforeDate = dtpBeforeTime.SelectedDate.Value.ToString("MM/dd/yyyy");
         }
 
         private void AppendConsole(string text)
@@ -95,7 +97,7 @@ namespace WpfApp1
             {
                 await ProcessHandler.RunProcessCheckedAsync(
                     exePath,
-                    $"exportall -t {token} -f {cbbFormat.SelectedValue} -o {outputdir} --after {formattedDate}",
+                    $"exportall -t {token} -f {cbbFormat.SelectedValue} -o {outputdir} --before {formattedBeforeDate} --after {formattedDate}",
                     packageDir,
                     AppendConsole
                 );
@@ -118,7 +120,7 @@ namespace WpfApp1
             {
                 await ProcessHandler.RunProcessCheckedAsync(
                     exePath,
-                    $"export -t {token} -f {cbbFormat.SelectedValue} -c {channel} -o {outputdir} --after {formattedDate}",
+                    $"export -t {token} -f {cbbFormat.SelectedValue} -c {channel} -o {outputdir} --before {formattedBeforeDate} --after {formattedAfterDate}",
                     packageDir,
                     AppendConsole
                 );
@@ -154,14 +156,28 @@ namespace WpfApp1
             serverid = txtServer.Text;
         }
 
-        private void DtpTime_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void DtpAfterTime_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             DatePicker dp = (DatePicker)sender;
 
             if (dp.SelectedDate.HasValue)
             {
-                formattedDate = dp.SelectedDate.Value.ToString("MM/dd/yyyy");
+                formattedAfterDate = dp.SelectedDate.Value.ToString("MM/dd/yyyy");
             }
+        }
+        private void DtpBeforeTime_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DatePicker dp = (DatePicker)sender;
+
+            if (dp.SelectedDate.HasValue)
+            {
+                formattedBeforeDate = dp.SelectedDate.Value.ToString("MM/dd/yyyy");
+            }
+        }
+
+        private async void btnParseJSON(object sender, RoutedEventArgs e)
+        {
+            await JSONParser.ParseJSON();
         }
     }
 }
