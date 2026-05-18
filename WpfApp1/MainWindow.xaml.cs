@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 
 namespace WpfApp1
@@ -20,6 +21,7 @@ namespace WpfApp1
         string token;
         string serverid;
         string channel;
+        string formattedDate;
 
         public MainWindow()
         {
@@ -31,6 +33,7 @@ namespace WpfApp1
 
             cbbFormat.ItemsSource = new string[] { "PlainText", "HtmlDark", "HtmlLight", "Csv", "Json" };
             txtConsole.Text += "\n";
+            formattedDate = dtpTime.SelectedDate.Value.ToString("MM/dd/yyyy");
         }
 
         private void AppendConsole(string text)
@@ -92,7 +95,7 @@ namespace WpfApp1
             {
                 await ProcessHandler.RunProcessCheckedAsync(
                     exePath,
-                    $"exportall -t {token} -f {cbbFormat.SelectedValue} -o {outputdir}",
+                    $"exportall -t {token} -f {cbbFormat.SelectedValue} -o {outputdir} --after {formattedDate}",
                     packageDir,
                     AppendConsole
                 );
@@ -115,7 +118,7 @@ namespace WpfApp1
             {
                 await ProcessHandler.RunProcessCheckedAsync(
                     exePath,
-                    $"export -t {token} -f {cbbFormat.SelectedValue} -c {channel} -o {outputdir}",
+                    $"export -t {token} -f {cbbFormat.SelectedValue} -c {channel} -o {outputdir} --after {formattedDate}",
                     packageDir,
                     AppendConsole
                 );
@@ -149,6 +152,16 @@ namespace WpfApp1
         private void txtServer_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             serverid = txtServer.Text;
+        }
+
+        private void DtpTime_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DatePicker dp = (DatePicker)sender;
+
+            if (dp.SelectedDate.HasValue)
+            {
+                formattedDate = dp.SelectedDate.Value.ToString("MM/dd/yyyy");
+            }
         }
     }
 }

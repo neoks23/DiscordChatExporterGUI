@@ -82,6 +82,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="8"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Button Content="Dms"
@@ -139,10 +141,19 @@
                         VerticalAlignment="Top"
                         Click="btnOutput"/>
 
+                <DatePicker
+                    x:Name="dtpTime"
+                    Grid.Row="12"
+                    Width="80"
+                    HorizontalAlignment="Center"
+                    SelectedDate="2026-05-10"
+                    SelectedDateChanged="DtpTime_SelectedDateChanged"
+                    />
+
                 <TextBox x:Name="txtConsole"
                          Grid.Row="2"
                          Grid.Column="2"
-                         Grid.RowSpan="9"
+                         Grid.RowSpan="11"
                          MaxHeight="200"
                          MinWidth="300"
                          AcceptsReturn="True"
