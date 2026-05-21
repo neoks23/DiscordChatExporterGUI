@@ -108,7 +108,7 @@ namespace WpfApp1
                 if(format == "Json")
                 {
                     jsonInputDir = "\\jsonInput\\" + DateTime.Now.ToString("dd-MM-yyyy_HH-mm");
-                    checkDirectoryExistsAndCreate(outputdir + jsonInputDir);
+                    SolutionRoot.checkDirectoryExistsAndCreate(outputdir + jsonInputDir);
                 }
                 
                 await ProcessHandler.RunProcessCheckedAsync(
@@ -169,16 +169,21 @@ namespace WpfApp1
                 formattedBeforeDate = dp.SelectedDate.Value.ToString("MM/dd/yyyy");
             }
         }
-        private void checkDirectoryExistsAndCreate(string path)
-        {
-            if (!Directory.Exists(path)) {
-                Directory.CreateDirectory(path);
-            }
-        }
         private async void btnParseJSON_Clicked(object sender, RoutedEventArgs e)
         {
 
-            await JSONParser.ParseJSON(System.IO.Path.Combine());
+            if(jsonFilePath == null)
+            {
+                MessageBox.Show(
+                    "No file has been selected.",
+                    "Invalid JSON",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+
+                return;
+            }
+
+            await JSONParser.ParseJSON(jsonFilePath);
         }
 
         private void btnChooseFile_Clicked(object sender, RoutedEventArgs e)

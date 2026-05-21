@@ -10,29 +10,8 @@ public static class JSONParser
     public static async Task ParseJSON(string file)
     {
         QuestPDF.Settings.License = LicenseType.Community;
-        string inputFolder = Path.Combine(AppContext.BaseDirectory, "input");
 
-        Console.WriteLine("=== Discord JSON Parser Test ===");
-
-        if (!Directory.Exists(inputFolder))
-        {
-            Console.WriteLine("[FAIL] inputJSON map niet gevonden.");
-            return;
-        }
-
-        Console.WriteLine("[PASS] inputJSON map gevonden.");
-
-        string? jsonFile = Directory.GetFiles(inputFolder, "Test2Json.json").FirstOrDefault();
-
-        if (jsonFile == null)
-        {
-            Console.WriteLine("[FAIL] Geen JSON-bestand gevonden.");
-            return;
-        }
-
-        Console.WriteLine($"[PASS] JSON-bestand gevonden: {Path.GetFileName(jsonFile)}");
-
-        string rawJson = File.ReadAllText(jsonFile);
+        string rawJson = File.ReadAllText(file);
 
         if (string.IsNullOrWhiteSpace(rawJson))
         {

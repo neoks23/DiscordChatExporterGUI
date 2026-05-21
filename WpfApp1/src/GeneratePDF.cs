@@ -1,17 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+using SMMPI.Infrastructure.Plugins.Tools;
 
 public static class PdfGenerator
 {
     public static void GeneratePDF(DiscordExport export)
     {
-        string outputFolder = Path.Combine(
-            Directory.GetParent(AppContext.BaseDirectory)!.Parent!.Parent!.Parent!.FullName,
-            "output");
+        string outputFolder = Path.Combine(SolutionRoot.Get(), "Output", "GeneratedPDF");
 
-        Directory.CreateDirectory(outputFolder);
+        SolutionRoot.checkDirectoryExistsAndCreate(outputFolder);
 
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
@@ -79,5 +79,7 @@ public static class PdfGenerator
 
         Console.WriteLine();
         Console.WriteLine($"[PASS] PDF gegenereerd: {outputPath}");
+
+        MessageBox.Show($"PDF succesvol gegenereerd:\n{outputPath}", "PDF Generator", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 }

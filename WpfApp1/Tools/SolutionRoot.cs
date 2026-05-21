@@ -36,9 +36,12 @@ namespace SMMPI.Infrastructure.Plugins.Tools
             return _solutionRoot;
         }
 
-        public static string ToSolutionAbsolutePath(string relativePath)
+        public static void checkDirectoryExistsAndCreate(string path)
         {
-            return Path.GetFullPath(Path.Combine(Get(), relativePath));
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
     }
 }
