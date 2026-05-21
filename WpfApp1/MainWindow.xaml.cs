@@ -89,38 +89,25 @@ namespace WpfApp1
                 AppendConsole("[exception] " + ex.Message);
             }
         }
-
-        private async void btnExportAll()
-        {
-            txtConsole.Clear();
-            try
-            {
-                await ProcessHandler.RunProcessCheckedAsync(
-                    exePath,
-                    $"exportall -t {token} -f {cbbFormat.SelectedValue} -o {outputdir} --before {formattedBeforeDate} --after {formattedDate}",
-                    packageDir,
-                    AppendConsole
-                );
-            }
-            catch (Exception ex)
-            {
-                AppendConsole("[exception] " + ex.Message);
-            }
-        }
-
         private async void btnExport(object sender, RoutedEventArgs e)
         {
             txtConsole.Clear();
-            if (chkExportAll.IsChecked == true)
-            {
-                btnExportAll();
-                return;
-            }
             try
             {
+                string format = cbbFormat.SelectedValue.ToString();
+                string jsonInputDir = "";
+
+                if(format == "Json")
+                {
+                    jsonInputDir = "\\jsonInput\\" + DateTime.Now.ToString("dd-MM-yyyy_HH-mm");
+                    checkDirectoryExistsAndCreate(outputdir + jsonInputDir);
+                }
+                
                 await ProcessHandler.RunProcessCheckedAsync(
                     exePath,
-                    $"export -t {token} -f {cbbFormat.SelectedValue} -c {channel} -o {outputdir} --before {formattedBeforeDate} --after {formattedAfterDate}",
+                    $"{(chkExportAll.IsChecked == true ? "exportall" : "export")} -t {token} -f {format} -c {channel} " +
+                    $"-o {(format == "Json" ? outputdir + jsonInputDir : outputdir)} " +
+                    $"--before {formattedBeforeDate} --after {formattedAfterDate}",
                     packageDir,
                     AppendConsole
                 );
@@ -174,10 +161,16 @@ namespace WpfApp1
                 formattedBeforeDate = dp.SelectedDate.Value.ToString("MM/dd/yyyy");
             }
         }
-
+        private void checkDirectoryExistsAndCreate(string path)
+        {
+            if (!Directory.Exists(path)) {
+                Directory.CreateDirectory(path);
+            }
+        }
         private async void btnParseJSON(object sender, RoutedEventArgs e)
         {
-            await JSONParser.ParseJSON();
+
+            await JSONParser.ParseJSON(System.IO.Path.Combine(outputdir, "input"));
         }
     }
 }

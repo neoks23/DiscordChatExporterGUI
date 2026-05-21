@@ -1,71 +1,99 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using QuestPDF.Infrastructure;
+using System;
+using System.IO;
+using System.IO.Pipes;
+using System.Linq;
 
-internal static class JSONParser
+public static class JSONParser
 {
-    // Functie die de input JSON file parsed en wacht totdat dit klaar is met parsen.
-    // Daarna kan deze data worden doorgestuurd naar de Normalisator.
-
-    private static async Task Main(string[] args)
+    public static async Task ParseJSON(string file)
     {
-        await ParseJSON();
-    }
+        QuestPDF.Settings.License = LicenseType.Community;
+        string inputFolder = Path.Combine(AppContext.BaseDirectory, "input");
 
-    private static async Task ParseJSON()
-    {
-        Console.WriteLine("Grabbing input JSON from Evidence Repository...");
+        Console.WriteLine("=== Discord JSON Parser Test ===");
 
-        string inputFilePath = "FOLDER/INPUT.JSON";
-
-        if (!File.Exists(inputFilePath))
+        if (!Directory.Exists(inputFolder))
         {
-            Console.WriteLine("Input JSON file doesn't exist.");
+            Console.WriteLine("[FAIL] inputJSON map niet gevonden.");
             return;
         }
 
-        // Read JSON file from the input folder and store it in a string variable.
-        string RAW_JSON = await File.ReadAllTextAsync(inputFilePath);
+        Console.WriteLine("[PASS] inputJSON map gevonden.");
 
-        if (string.IsNullOrWhiteSpace(RAW_JSON))
+        string? jsonFile = Directory.GetFiles(inputFolder, "Test2Json.json").FirstOrDefault();
+
+        if (jsonFile == null)
         {
-            Console.WriteLine("Input JSON file is empty.");
+            Console.WriteLine("[FAIL] Geen JSON-bestand gevonden.");
             return;
         }
 
-        DiscordExport? export = JsonConvert.DeserializeObject<DiscordExport>(RAW_JSON);
+        Console.WriteLine($"[PASS] JSON-bestand gevonden: {Path.GetFileName(jsonFile)}");
 
-        if (export == null)
+        string rawJson = File.ReadAllText(jsonFile);
+
+        if (string.IsNullOrWhiteSpace(rawJson))
         {
-            Console.WriteLine("Export is empty or couldn't be parsed.");
+            Console.WriteLine("[FAIL] JSON-bestand is leeg.");
             return;
         }
 
-        if (export.Messages == null || export.Messages.Count == 0)
+        Console.WriteLine("[PASS] JSON-bestand is ingelezen.");
+
+        DiscordExport? export;
+
+        try
         {
-            Console.WriteLine("Export contains no messages.");
+            export = JsonConvert.DeserializeObject<DiscordExport>(rawJson);
+        }
+        catch (Newtonsoft.Json.JsonException ex)
+        {
+            Console.WriteLine($"[FAIL] Ongeldige JSON: {ex.Message}");
             return;
         }
 
-        Console.WriteLine("JSON Parsing Complete.");
-        Console.WriteLine("Sending parsed JSON to Normalisator...");
+        if (export == null || export.Messages.Count == 0)
+        {
+            Console.WriteLine("[FAIL] Geen berichten gevonden in export.");
+            return;
+        }
 
-        // Deel 1: het inlezen van de JSON file, het parsen van de inhoud
-        // en een nacontrole uitvoeren of dit juist gedaan is.
-
-        //________________________________________________________________
-
-        // Normalisator.
-        // Hier wordt de geparste data voorlopig gecontroleerd via Console output.
-        // Later kan hier de echte Normalisator worden aangeroepen.
+        Console.WriteLine("[PASS] JSON succesvol omgezet naar datamodel.");
+        Console.WriteLine($"[PASS] Aantal berichten: {export.Messages.Count}");
+        Console.WriteLine();
 
         foreach (var message in export.Messages)
         {
-            string timestamp = message.Timestamp?.ToString() ?? "No timestamp";
-            string author = message.Author?.Nickname ?? "Unknown author";
-            string content = message.Content ?? "No content";
+            string author = message.Author?.Nickname
+                            ?? message.Author?.Name
+                            ?? "Onbekende auteur";
 
-            Console.WriteLine($"[{timestamp}] {author}: {content}");
+            string content = string.IsNullOrWhiteSpace(message.Content)
+                ? "[Geen tekst]"
+                : message.Content;
+
+            Console.WriteLine($"[{message.Timestamp:yyyy-MM-dd HH:mm:ss}] {author}: {content}");
+
+            // Attachments uitlezen
+            if (message.Attachments != null && message.Attachments.Count > 0)
+            {
+                foreach (var attachment in message.Attachments)
+                {
+                    string fileName = attachment.FileName ?? "Onbekend bestand";
+                    string url = attachment.Url ?? "Geen URL";
+
+                    Console.WriteLine($"    [BIJLAGE] {fileName}");
+                    Console.WriteLine($"    [CDN] {url}");
+                }
+            }
         }
 
-        Console.WriteLine("Done.");
+        Console.WriteLine();
+        Console.WriteLine("=== Parser succesvol afgerond ===");
+        Console.WriteLine();
+        Console.WriteLine("=== PDF Generator Test Start ===");
+        PdfGenerator.GeneratePDF(export);
     }
 }
