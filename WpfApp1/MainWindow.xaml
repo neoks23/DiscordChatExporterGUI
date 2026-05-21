@@ -5,36 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="470" Width="800">
 
-	<Grid HorizontalAlignment="Center"
+    <Grid HorizontalAlignment="Center"
           Height="400"
           Width="780"
           ShowGridLines="False"
           Margin="0,17,0,17">
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="100"/>
-			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="24"/>
-			<RowDefinition Height="24"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="8"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="8"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="8"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="8"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-		<Button Content="Toggle Visiblity"
+        <Button Content="Toggle Visiblity"
                 Grid.Row="0"
                 Grid.Column="0"
                 Height="32"
@@ -42,7 +41,7 @@
                 VerticalAlignment="Center"
                 Click="btnAuth"/>
 
-		<TextBlock Grid.Row="0"
+        <TextBlock Grid.Row="0"
                    Grid.Column="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
@@ -51,10 +50,10 @@
                    FontWeight="Bold"
                    FontSize="24"/>
 
-		<Label Content="Enter token: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top"/>
-		<TextBox Grid.Column="2"  x:Name="txtToken" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="300" TextChanged="txtToken_TextChanged"/>
+        <Label Content="Enter token: " HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
+        <TextBox Grid.Column="2"  x:Name="txtToken" HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="300" TextChanged="txtToken_TextChanged"/>
 
-		<GroupBox x:Name="ExportGroup"
+        <GroupBox x:Name="ExportGroup"
                   Header="Export Settings"
                   Grid.Row="3"
                   Grid.Column="0"
@@ -63,34 +62,34 @@
                   Margin="0,0,0,0"
                   Visibility="Visible">
 
-			<Grid Margin="8">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="80"/>
-					<ColumnDefinition Width="16"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="8"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-				<Button Content="Dms"
+                <Button Content="Dms"
                         Grid.Row="0"
                         Grid.Column="0"
                         Width="80"
@@ -98,8 +97,8 @@
                         VerticalAlignment="Top"
                         Click="btnDms"/>
 
-				<Label Content="Enter channel: " HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top"/>
-				<TextBox x:Name="txtChannel"
+                <Label Content="Enter channel: " HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top"/>
+                <TextBox x:Name="txtChannel"
                           Grid.Column="2"
                           Width="228"
                           HorizontalAlignment="Left"
@@ -107,7 +106,7 @@
                           
                           />
 
-				<Button Content="Channels"
+                <Button Content="Channels"
                         Grid.Row="2"
                         Grid.Column="0"
                         Width="80"
@@ -115,7 +114,7 @@
                         VerticalAlignment="Top"
                         Click="btnChannels"/>
 
-				<CheckBox x:Name="chkExportAll"
+                <CheckBox x:Name="chkExportAll"
                           Grid.Row="4"
                           Grid.Column="0"
                           Width="80"
@@ -123,59 +122,59 @@
                           FlowDirection="RightToLeft"
                           Content="ExportAll"/>
 
-				<ComboBox x:Name="cbbFormat"
+                <ComboBox x:Name="cbbFormat"
                           Grid.Row="6"
                           Grid.Column="0"
                           Width="80"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"/>
 
-				<Button Content="Export"
+                <Button Content="Export"
                         Grid.Row="8"
                         Grid.Column="0"
                         Width="80"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="btnExport"/>
-				<Button Content="View Output"
+                <Button Content="View Output"
                         Grid.Row="10"
                         Grid.Column="0"
                         Width="80"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="btnOutput"/>
-				
-				<DatePicker
-                    x:Name="dtpBeforeTime"
-                    Grid.Row="12"
-                    Width="80"
-                    HorizontalAlignment="Center"
-                    SelectedDate="2026-05-1"
-                    SelectedDateChanged="DtpBeforeTime_SelectedDateChanged"
-                    />
-				
-				<DatePicker
+                <DatePicker
                     x:Name="dtpAfterTime"
-                    Grid.Row="14"
+                    Grid.Row="12"
                     Width="80"
                     HorizontalAlignment="Center"
                     SelectedDate="2026-05-11"
                     SelectedDateChanged="DtpAfterTime_SelectedDateChanged"
                     />
 
+                <DatePicker
+                    x:Name="dtpBeforeTime"
+                    Grid.Row="14"
+                    Width="80"
+                    HorizontalAlignment="Center"
+                    SelectedDate="2026-05-1"
+                    SelectedDateChanged="DtpBeforeTime_SelectedDateChanged"
+                    />
 
+                <Button x:Name="btnParseJSON" Content="Parse JSON"
+                    Grid.Row="16"
+                    Grid.Column="0"
+                    VerticalAlignment="Top"
+                    Click="btnParseJSON_Clicked"/>
 
-				<Button Content="Parse JSON"
+                <Button x:Name="btnChooseFile" Content="Choose file"
                         Grid.Row="16"
-                        Grid.Column="0"
-                        Width="80"
-                        HorizontalAlignment="Left"
+                        Grid.Column="2"
                         VerticalAlignment="Top"
-                        Click="btnParseJSON"/>
+                        Click="btnChooseFile_Clicked"/>
 
 
-
-				<TextBox x:Name="txtConsole"
+                <TextBox x:Name="txtConsole"
                          Grid.Row="2"
                          Grid.Column="2"
                          Grid.RowSpan="15"
@@ -191,15 +190,15 @@
                          Foreground="LightGreen"
                          BorderBrush="Gray"
                          Text="[cmd] ready..." ScrollViewer.CanContentScroll="True" Margin="0,0,0,20" />
-				<Label Content="Enter server ID: " HorizontalAlignment="Left" Grid.Column="2" VerticalAlignment="Center" Margin="321,0,0,0"/>
-				<TextBox x:Name="txtServer"
+                <Label Content="Enter server ID: " HorizontalAlignment="Left" Grid.Column="2" VerticalAlignment="Center" Margin="321,0,0,0"/>
+                <TextBox x:Name="txtServer"
                     Grid.Column="2"
                     Width="228"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center" TextChanged="txtServer_TextChanged" Margin="418,0,0,0"
                           
                           />
-			</Grid>
-		</GroupBox>
-	</Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
 </Window>

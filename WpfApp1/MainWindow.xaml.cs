@@ -1,8 +1,10 @@
-﻿using SMMPI.Infrastructure.Plugins.Tools;
+﻿using Microsoft.Win32;
+using SMMPI.Infrastructure.Plugins.Tools;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
@@ -12,6 +14,11 @@ namespace WpfApp1
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    public class InvalidJsonFileException : Exception
+    {
+        public InvalidJsonFileException(string message) : base(message) { }
+    }
     public partial class MainWindow : Window
     {
         string slnRoot;
@@ -23,6 +30,7 @@ namespace WpfApp1
         string channel;
         string formattedAfterDate;
         string formattedBeforeDate;
+        string jsonFilePath;
 
         public MainWindow()
         {
@@ -167,10 +175,73 @@ namespace WpfApp1
                 Directory.CreateDirectory(path);
             }
         }
-        private async void btnParseJSON(object sender, RoutedEventArgs e)
+        private async void btnParseJSON_Clicked(object sender, RoutedEventArgs e)
         {
 
-            await JSONParser.ParseJSON(System.IO.Path.Combine(outputdir, "input"));
+            await JSONParser.ParseJSON(System.IO.Path.Combine());
+        }
+
+        private void btnChooseFile_Clicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Title = "Choose a JSON file",
+                    Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    Multiselect = false,
+                    InitialDirectory = outputdir
+                };
+
+                bool? result = openFileDialog.ShowDialog();
+
+                if (result != true)
+                    return;
+
+                string selectedPath = openFileDialog.FileName;
+
+                if (!string.Equals(System.IO.Path.GetExtension(selectedPath), ".json", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new InvalidJsonFileException("The selected file must have a .json extension.");
+                }
+
+                string json = File.ReadAllText(selectedPath);
+                JsonDocument.Parse(json);
+
+                jsonFilePath = selectedPath;
+                btnChooseFile.Content = System.IO.Path.GetFileName(jsonFilePath);
+
+                MessageBox.Show(
+                    "JSON file selected successfully.",
+                    "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+            catch (InvalidJsonFileException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Invalid file",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            catch (JsonException)
+            {
+                MessageBox.Show(
+                    "The selected file does not contain valid JSON.",
+                    "Invalid JSON",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"An unexpected error occurred:\n{ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
     }
 }
