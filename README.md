@@ -26,16 +26,32 @@ For retrieving dm / server channels you need to provide a user token, for retrie
 To extract the token, from which there are various methods, look at the following URL: https://github.com/Tyrrrz/DiscordChatExporter/blob/prime/.docs/Token-and-IDs.md
 
 ---
+## PDF Export
+
+The Discord Chat Exporter GUI also supports exporting chat logs in PDF format. To export a chat log as a PDF, follow these steps:
+
+First make sure you have generated a JSON file from either user / bot or server channel(s).
+
+Then
+1. Open the generated JSON file in the Discord Chat Exporter GUI.
+![GUI Screenshot](WpfApp1/Media/s3.png)
+2. Click on the "Parse JSON" button to parse the JSON file and build the PDF, this will generate a PDF file with all required information for the selected case.
+![GUI Screenshot](WpfApp1/Media/s4.png)
+3. Press on view output and navigate to the GeneratedPDF folder, there you will find the generated PDF file.
+![GUI Screenshot](WpfApp1/Media/s5.png)
+
 ## Gather server ID
 
 Go to the server you want to export, right click on the server icon, and at the bottom of the list click "Copy ID". If you don't see the "Copy ID" option, you need to enable Developer Mode in your Discord settings.
 
+
+
 ---
-## Recommendations
+# Recommendations
 
 It is recommended to export single channels at a time, as exporting multiple channels at once may cause issues with rate limits and may result in incomplete exports or exports that take a while to download.
 
 
 # Screenshots
 
-![GUI Screenshot](WpfApp1/Media/s1.png)
+![GUI Screenshot](WpfApp1/Media/s2.png)

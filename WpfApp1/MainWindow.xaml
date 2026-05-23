@@ -148,7 +148,7 @@
                     Grid.Row="12"
                     Width="80"
                     HorizontalAlignment="Center"
-                    SelectedDate="2026-05-11"
+                    SelectedDate="2026-05-01"
                     SelectedDateChanged="DtpAfterTime_SelectedDateChanged"
                     />
 
@@ -157,7 +157,7 @@
                     Grid.Row="14"
                     Width="80"
                     HorizontalAlignment="Center"
-                    SelectedDate="2026-05-1"
+                    SelectedDate="2026-05-11"
                     SelectedDateChanged="DtpBeforeTime_SelectedDateChanged"
                     />
 
